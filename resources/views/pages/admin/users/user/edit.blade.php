@@ -1,0 +1,149 @@
+@extends('layouts.admin.app')
+
+@section('content')
+<div class="container-fluid flex-grow-1 container-p-y">
+    <div class="row">
+        <div class="col">
+            <form action="{{ route($route.'.update', $record->id) }}" method="POST" enctype="multipart/form-data">
+                @csrf
+                @method('PUT')
+    
+                <div class="card">
+                    <div class="card-header border-bottom">
+                        <div class="fw-bold fs-5">{{ $pagetitle }}</div>
+                        <div class="text-subtitle text-muted">
+                            {{ $information }}
+                        </div>
+                    </div>
+                    <div class="card-body pt-3">
+                        @include('partials.admin.alert')
+    
+                        <div class="row">
+                            <div class="col-md-6">
+    
+                                <div class="mb-3">
+                                    <label class="form-label" for="email">Email</label>
+                                    <input type="email" class="form-control @error('email') is-invalid @enderror" id="email" placeholder="Enter Email" name="email" value="{{ $record->email }}" disabled>
+                                    @error('email')
+                                    <div class="invalid-feedback">
+                                        <i class="bx bx-radio-circle"></i>
+                                        {{ $message }}
+                                    </div>
+                                    @enderror
+                                </div>
+    
+                                <div class="mb-3">
+                                    <label class="form-label" for="password">Password</label>
+                                    <input type="password" class="form-control @error('password') is-invalid @enderror" id="password" placeholder="Enter Password" name="password">
+                                    @error('password')
+                                    <div class="invalid-feedback">
+                                        <i class="bx bx-radio-circle"></i>
+                                        {{ $message }}
+                                    </div>
+                                    @enderror
+                                </div>
+    
+                                <div class="mb-3">
+                                    <label class="form-label" for="role">Role</label>
+                                    <select name="role_id" id="role" class="select2" style="width: 100%">
+                                        <option value="{{ $record->role_id }}">{{ $record->role->name ?? '-' }}</option>
+                                    </select>
+                                    @error('role_id')
+                                    <div class="invalid-feedback d-block">
+                                        <i class="bx bx-radio-circle"></i>
+                                        {{ $message }}
+                                    </div>
+                                    @enderror
+                                </div>
+    
+                                <div class="mb-3">
+                                    <label class="form-label" for="customFile">Image <em class="small text-danger">Max. 2 MB</em></label>
+    
+                                    <div>
+                                        <img draggable="false" src="{{ $record->url_image }}" id="logo" class="img-fluid img-thumbnail my-2" width="125" height="125">
+                                    </div>
+    
+                                    <input type="file" id="customFile" class="form-control @error('image') is-invalid @enderror" accept=".jpeg,.png,.jpg" name="image">
+                                    
+                                    @error('image')
+                                    <div class="invalid-feedback">
+                                        <i class="bx bx-radio-circle"></i>
+                                        {{ $message }}
+                                    </div>
+                                    @enderror
+                                </div>
+    
+                            </div>
+    
+                            <div class="col-md-6">
+                                    
+                                <div class="mb-3">
+                                    <label class="form-label" for="name">Nama</label>
+                                    <input type="text" class="form-control @error('name') is-invalid @enderror" id="name" placeholder="Masukkan Nama" name="name" required value="{{ $record->name }}">
+                                    @error('name')
+                                    <div class="invalid-feedback">
+                                        <i class="bx bx-radio-circle"></i>
+                                        {{ $message }}
+                                    </div>
+                                    @enderror
+                                </div>
+
+                                <div class="mb-3">
+                                    <label class="form-label" for="phone">Telepon</label>
+                                    <input type="text" class="form-control @error('phone') is-invalid @enderror" id="phone" placeholder="Enter Phone" name="phone" value="{{ $record->phone }}">
+                                    @error('phone')
+                                    <div class="invalid-feedback">
+                                        <i class="bx bx-radio-circle"></i>
+                                        {{ $message }}
+                                    </div>
+                                    @enderror
+                                </div>
+    
+                                <div class="mb-3">
+                                    <label class="form-label" for="address">Alamat</label>
+                                    <input type="text" class="form-control @error('address') is-invalid @enderror" id="address" placeholder="Enter Address" name="address" value="{{ $record->address }}">
+                                    @error('address')
+                                    <div class="invalid-feedback">
+                                        <i class="bx bx-radio-circle"></i>
+                                        {{ $message }}
+                                    </div>
+                                    @enderror
+                                </div>
+    
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-footer">
+                        <a class="btn btn-light" href="{{ route($route.'.index') }}"><i class="fa fa-arrow-left"></i> Kembali</a>
+                        <button type="submit" class="btn btn-primary"><i class="fa fa-save"></i> Update</button>
+                    </div>
+                </div>
+    
+            </form> 
+        </div>
+    </div>
+</div>
+@endsection
+
+@section('scripts')
+<link href="{{ asset('/vendor/select2/select2.min.css') }}" rel="stylesheet">
+<link href="{{ asset('/vendor/select2/select2-bootstrap.min.css') }}" rel="stylesheet">
+<script src="{{ asset('/vendor/select2/select2.min.js') }}"></script>
+
+<script>
+    $(function(){
+        const roleOptions = {
+            route_to    : "{{ route('admin.users.role.all') }}",
+            placeholder : 'Pilih Role',
+            allowClear  : false
+        }
+        initSelect2('#role', roleOptions);
+
+        $('#customFile').on('change', function(e) {
+            const file = e.target.files[0];
+            const image = URL.createObjectURL(file);
+            $('#logo').attr('src', image);
+        })
+    });
+</script>
+@endsection

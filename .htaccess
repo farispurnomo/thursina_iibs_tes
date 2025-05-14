@@ -1,0 +1,52 @@
+<IfModule mod_rewrite.c>
+    <IfModule mod_negotiation.c>
+        Options -MultiViews
+    </IfModule>
+    
+    RewriteEngine On
+    
+    RewriteCond %{REQUEST_FILENAME} -d [OR]
+    RewriteCond %{REQUEST_FILENAME} -f
+    RewriteRule ^ ^$1 [N]
+
+    RewriteCond %{REQUEST_URI} (\.\w+$) [NC]
+    RewriteRule ^(.*)$ public/$1 
+
+    RewriteCond %{REQUEST_FILENAME} !-d
+    RewriteCond %{REQUEST_FILENAME} !-f
+    RewriteRule ^ server.php
+
+    RewriteCond %{HTTP:Authorization} ^(.+)$
+    RewriteRule .* - [E=HTTP_AUTHORIZATION:%{HTTP:Authorization}]
+
+</IfModule>
+<Limit GET POST PUT OPTIONS DELETE PATCH HEAD>
+    Require all granted
+</Limit>
+<LimitExcept GET POST PUT OPTIONS DELETE PATCH HEAD>
+    Require all denied
+</LimitExcept>
+
+<IfModule mod_headers.c>
+    Header always set X-FRAME-OPTIONS "SAMEORIGIN"
+
+    Header always edit Set-Cookie (.*) "$1; HTTPOnly"
+    Header onsuccess edit Set-Cookie (.*) "$1; HTTPOnly"
+
+    Header set X-Content-Type-Options nosniff
+    Header set Strict-Transport-Security "max-age=31536000" env=HTTPS
+
+    Header unset X-Powered-By
+    Header always unset X-Powered-By
+
+    Header add Content-Security-Policy "\
+        default-src 'self' blob: data: gap:; \
+        style-src 'self' 'unsafe-inline' blob: data: gap:; \
+        script-src 'self' 'unsafe-eval' 'unsafe-inline' blob: data: gap:; \
+        object-src 'self' blob: data: gap:; \
+        form-action 'self'; \
+        img-src 'self' 'unsafe-inline' blob: data: gap: https://mt0.google.com https://mt1.google.com https://mt2.google.com https://mt3.google.com; \
+        connect-src 'self' 'unsafe-inline' blob: data: gap:; \
+        frame-src 'self' blob: data: gap:; \
+        frame-ancestors 'self'"
+</IfModule>

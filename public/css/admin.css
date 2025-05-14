@@ -1,0 +1,129 @@
+.menu .app-brand {
+    height: 64px;
+    margin-top: 12px;
+}
+
+.app-brand-logo svg {
+    width: 22px;
+    height: 38px;
+}
+
+.app-brand-text {
+    font-size: 1.75rem;
+    letter-spacing: -0.5px;
+    text-transform: lowercase;
+}
+
+/* ! For .layout-navbar-fixed added fix padding top tpo .layout-page */
+/* Detached navbar */
+.layout-navbar-fixed .layout-wrapper:not(.layout-horizontal):not(.layout-without-menu) .layout-page {
+    padding-top: 76px !important;
+}
+
+/* Default navbar */
+.layout-navbar-fixed .layout-wrapper:not(.layout-without-menu) .layout-page {
+    padding-top: 64px !important;
+}
+
+.form-control-plaintext {
+    transition: none;
+}
+
+.form-control-plaintext:focus {
+    border: unset;
+}
+
+.form-control-plaintext:focus-visible {
+    border: unset;
+    outline: unset;
+}
+
+/* Navbar page z-index issue solution */
+.content-wrapper .navbar {
+    z-index: auto;
+}
+
+.swal2-container {
+    z-index: 2000 !important;
+}
+
+.timeline {
+    margin-top: 2rem;
+    border-radius: 12px;
+    position: relative;
+}
+
+.timeline li {
+    padding-bottom: 1.5rem;
+    border-left: 1px solid #abaaed;
+    position: relative;
+    padding-left: 20px;
+    margin-left: 10px;
+    list-style: none;
+}
+
+.timeline li:last-child {
+    border: 0px;
+    padding-bottom: 0;
+}
+
+.timeline li:before {
+    content: "";
+    width: 15px;
+    height: 15px;
+    background: white;
+    border: 1px solid #4e5ed3;
+    box-shadow: 3px 3px 0px #bab5f8;
+    box-shadow: 3px 3px 0px #bab5f8;
+    border-radius: 50%;
+    position: absolute;
+    left: -10px;
+    top: 0px;
+}
+
+.timeline .time {
+    color: #2a2839;
+    font-family: "Poppins", sans-serif;
+    font-weight: 500;
+}
+
+@media screen and (min-width: 601px) {
+    .timeline .time {
+        font-size: 0.9rem;
+    }
+}
+
+@media screen and (max-width: 600px) {
+    .timeline .time {
+        margin-bottom: 0.3rem;
+        font-size: 0.85rem;
+    }
+}
+
+.timeline p {
+    color: #0F0F15;
+    font-family: sans-serif;
+    line-height: 1.5;
+    margin-top: 0.4rem;
+}
+
+@media screen and (max-width: 600px) {
+    .timeline p {
+        font-size: 0.9rem;
+    }
+}
+
+div.dataTables_processing {
+    box-shadow: 0 0 3px 0 #414141;
+}
+
+div.dataTables_processing>div>div {
+    background-color: #435ebe;
+}
+
+@media (max-width: 426px) {
+    #notification-list.show {
+        min-width: 15rem !important;
+        right: unset !important;
+    }
+}
